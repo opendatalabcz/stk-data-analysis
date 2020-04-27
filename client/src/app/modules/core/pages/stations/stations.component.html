@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stanice</title>
+</head>
+<body>
+
+<form>
+  <div class="form-group form-inline">
+    Hledat: <input [formControl]="filter" class="form-control ml-2" type="text"/>
+  </div>
+</form>
+
+<table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
+  <col width="150px"/>
+  <col width="350px"/>
+  <col width="250px"/>
+  <col width="200px"/>
+  <tr class="table-info">
+    <td>STK ID</td>
+    <td>Provozovatel</td>
+    <td>Město</td>
+    <td>Adresa</td>
+  </tr>
+  <tr *ngFor="let station of stations$| async" class="row-data">
+    <td>
+      <a [routerLink]="[station.stationId]">
+        <button color="primary" mat-raised-button>
+          {{station.stationId}}
+        </button>
+      </a>
+    </td>
+    <td>
+      {{station.operator}}
+    </td>
+    <td>
+      {{station.city}}
+    </td>
+    <td>
+      {{station.street}}<br>{{station.postalCode}}
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

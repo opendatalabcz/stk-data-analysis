@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stanice</title>
+</head>
+<body>
+<div *ngIf="station" id="info">
+  <h1><b>{{station.operator}}</b></h1>
+  <div id="card">
+    <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
+      <tr>
+        <td><b>ID</b></td>
+        <td>{{station.stationId.toString().length == 3 ? station.stationId * 10 : station.stationId}}</td>
+      </tr>
+      <tr>
+        <td><b>Město</b></td>
+        <td>{{station.city}}</td>
+      </tr>
+      <tr>
+        <td><b>Adresa</b></td>
+        <td>{{station.street + " PSČ: " + station.postalCode}}</td>
+      </tr>
+      <tr>
+        <td><b>Telefonní číslo</b></td>
+        <td>{{station.telephoneNumber}}</td>
+      </tr>
+      <tr>
+        <td><b>E-mail</b></td>
+        <td>{{station.email}}</td>
+      </tr>
+      <tr>
+        <td><b>Rozsah oprávnění</b></td>
+        <td>{{station.scopeOfApproval}}</td>
+      </tr>
+    </table>
+  </div>
+  <div id="price" *ngIf="station.inspectionPrice">
+    <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
+      <tr>
+        <td><b>Technická kontrola</b></td>
+        <td><b>Evidenční kontrola</b></td>
+        <td><b>Emise (benzín)</b></td>
+        <td><b>Emise (nafta)</b></td>
+      </tr>
+      <tr>
+        <td>{{station.inspectionPrice}} Kč</td>
+        <td>{{station.evInspectionPrice}} Kč</td>
+        <td>{{station.emissionPriceB}} Kč</td>
+        <td>{{station.emissionPriceN}} Kč</td>
+      </tr>
+    </table>
+  </div>
+  <div id="note" *ngIf="station.workingHours">
+    <p>{{station.workingHours}}</p>
+  </div>
+</div>
+<div *ngIf="inspections.length != 0" id="stat">
+  <h2>Statistiky kontrol v roce 2018</h2>
+  <p id="total">Celkem kontrol: <b>{{inspections.length}}</b></p>
+  <div id="pie_chart">
+    <apx-chart
+      [chart]="pieOptions.chart"
+      [labels]="pieOptions.labels"
+      [responsive]="pieOptions.responsive"
+      [series]="pieOptions.series"
+      [title]="pieOptions.title"
+    ></apx-chart>
+  </div>
+  <div id="column_chart">
+    <apx-chart
+      [chart]="columnOptions.chart"
+      [dataLabels]="columnOptions.dataLabels"
+      [fill]="columnOptions.fill"
+      [plotOptions]="columnOptions.plotOptions"
+      [series]="columnOptions.series"
+      [title]="columnOptions.title"
+      [xaxis]="columnOptions.xaxis"
+      [yaxis]="columnOptions.yaxis"
+    ></apx-chart>
+  </div>
+  <div id="bar_chart">
+    <apx-chart
+      [chart]="barOptions.chart"
+      [dataLabels]="barOptions.dataLabels"
+      [fill]="barOptions.fill"
+      [plotOptions]="barOptions.plotOptions"
+      [series]="barOptions.series"
+      [title]="barOptions.title"
+      [xaxis]="barOptions.xaxis"
+      [yaxis]="barOptions.yaxis"
+    ></apx-chart>
+  </div>
+</div>
+</body>
+</html>
