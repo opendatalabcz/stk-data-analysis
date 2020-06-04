@@ -6,9 +6,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
+/**
+ * This class represents single station
+ *
+ * @author Aleksandra Parkhomenko
+ *
+ */
+
 @Entity
 @Table(name = "seznam_stk")
-public class StationData {
+public class Station {
 
     @Id
     @Column(name = "stk_id")
@@ -60,7 +67,7 @@ public class StationData {
     private String workingHours;
 
 
-    public StationData() {
+    public Station() {
     }
 
     public Long getStationId() {
@@ -195,7 +202,7 @@ public class StationData {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StationData that = (StationData) o;
+        Station that = (Station) o;
         return stationId.equals(that.stationId);
     }
 

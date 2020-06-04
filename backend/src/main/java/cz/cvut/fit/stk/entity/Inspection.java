@@ -7,10 +7,17 @@ import javax.persistence.Table;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * This class represents single inspection
+ *
+ * @author Aleksandra Parkhomenko
+ *
+ */
+
 @Entity
 @Table(name = "kontroly")
 public class Inspection {
-    
+
     @Id
     @Column(name = "id")
     private Long id;
