@@ -10,9 +10,9 @@ import {MatCellDataSource, MatCellItem} from './mat-cell-datasource';
   styleUrls: ['./mat-cell.component.scss']
 })
 export class MatCellComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatTable, {static: false}) table: MatTable<MatCellItem>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatTable) table: MatTable<MatCellItem>;
   dataSource: MatCellDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */

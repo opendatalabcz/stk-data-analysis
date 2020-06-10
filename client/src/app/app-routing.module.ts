@@ -36,13 +36,13 @@ const routes: Routes = [
         component: StationsComponent
       },
       {
-        path: ":id",
+        path: ":stationId",
         component: SingleStationComponent
       }
     ]
   },
   {
-    path: ":id",
+    path: ":stationId",
     component: CoreLayoutComponent,
     children: [
       {
@@ -58,6 +58,14 @@ const routes: Routes = [
       {
         path: "",
         component: StatisticsComponent
+      },
+      {
+        path: "stations",
+        component: StationsComponent
+      },
+      {
+        path: ":stationId",
+        component: SingleStationComponent
       }
     ]
   }

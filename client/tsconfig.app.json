@@ -10,7 +10,7 @@
     "node_modules/apexcharts/types/apexcharts.d.ts"
   ],
   "include": [
-    "src/**/*.ts"
+    "src/**/*.d.ts"
   ],
   "exclude": [
     "src/test.ts",

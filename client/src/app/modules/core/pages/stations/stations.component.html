@@ -22,7 +22,9 @@
     <td>Provozovatel</td>
     <td>Město</td>
     <td>Adresa</td>
+    <td>Cena prohlídky</td>
   </tr>
+
   <tr *ngFor="let station of stations$| async" class="row-data">
     <td>
       <a [routerLink]="[station.stationId]">
@@ -39,6 +41,9 @@
     </td>
     <td>
       {{station.street}}<br>{{station.postalCode}}
+    </td>
+    <td>
+      {{station.inspectionPrice | zeroToDash}}
     </td>
   </tr>
 </table>

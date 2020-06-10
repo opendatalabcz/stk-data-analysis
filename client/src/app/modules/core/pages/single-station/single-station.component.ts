@@ -7,42 +7,160 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {InspectionResult, InspectionsInterface} from "../../types/inspectionsInterface";
 import {InspectionsAPIService} from "../../services/inspectionsAPIservice";
 import {StationsForm} from "../../types/stationsForm";
-import {ApexChart, ApexNonAxisChartSeries, ApexResponsive, ApexTitleSubtitle, ChartComponent} from "ng-apexcharts";
+import {ChartComponent} from "ng-apexcharts";
 import {InspectionsForm} from "../../types/inspectionsForm";
+import {BarChartOptions, PieChartOptions} from "../../types/charts/ChartOptions";
 
-export type PieChartOptions = {
-  series: ApexNonAxisChartSeries;
-  chart: ApexChart;
-  responsive: ApexResponsive[];
-  labels: any;
-  title: ApexTitleSubtitle;
-};
+/**
+ * parseWorkingHours - parser for station's working hours: string -> dictionary
+ */
+function parseWorkingHours(workingHoursString: string) {
+  let workingHours = [];
 
-export type BarChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  dataLabels: ApexDataLabels;
-  plotOptions: ApexPlotOptions;
-  yaxis: ApexYAxis;
-  xaxis: ApexXAxis;
-  fill: ApexFill;
-  title: ApexTitleSubtitle;
-};
+  workingHoursString.split(', ').forEach(day => {
+    workingHours.push({key: day.split(' ')[0], value: day.split(' ')[1]})
+  });
+
+  return workingHours;
+}
+
+/**
+ * compare - comparator for inspections by hour of record
+ */
+function compare(a: InspectionsInterface, b: InspectionsInterface) {
+  if (new Date(a.inspectionDate).getHours() > new Date(b.inspectionDate).getHours()) return 1;
+  if (new Date(b.inspectionDate).getHours() > new Date(a.inspectionDate).getHours()) return -1;
+
+  return 0;
+}
+
+/**
+ * countSuspiciousDays - function which calculates days with suspicious inspections density
+ */
+function countSuspiciousDays(inspections: InspectionsInterface[]) {
+  let aprxCountByWeekday = {};
+  let result = [];
+  let res = [];
+
+  for (let i = 0; i <= 6; i++)
+    aprxCountByWeekday[i] = inspections.filter(inspection => (new Date(inspection.inspectionDate).getDay() == i)).length / 52;
+
+  inspections.forEach(inspection => {
+    let date = new Date(inspection.inspectionDate);
+    result.push(new Date(date.getFullYear(), date.getMonth(), date.getDate()));
+  });
+
+  let days = result.reduce((a, c) => (a[c] = (a[c] || 0) + 1, a), Object.create(null));
+  let items = Object.keys(days).map(function (key) {
+    return [key, days[key]];
+  });
+
+  items.forEach(day => {
+    if (aprxCountByWeekday[(new Date(day[0])).getDay()] < day[1] * 0.6)
+      res.push(new Date(day[0]));
+  });
+
+  return res;
+}
+
+/**
+ * countInvalidDates - function which calculates inspections recorded with invalid date
+ */
+function countInvalidDates(inspections: InspectionsInterface[]) {
+  let result = 0;
+
+  inspections.forEach(inspection => {
+    let date = new Date(inspection.firstRegistrationDate);
+
+    if (date.getFullYear() < 1917)
+      result++;
+  });
+
+  return result;
+}
+
+/**
+ * getPopularBrands - function which returns the most popular vehicle brands
+ */
+function getPopularBrands(inspections: InspectionsInterface[]) {
+  let brands = [];
+
+  inspections.forEach(inspection => {
+    brands.push(inspection.vehicleBrand)
+  });
+
+  let popular = brands.reduce((a, c) => (a[c] = (a[c] || 0) + 1, a), Object.create(null));
+  let items = Object.keys(popular).map(function (key) {
+    return [key, popular[key]];
+  });
+  items = items.sort(function (first, second) {
+    return second[1] - first[1];
+  });
+
+  return items.slice(0, items.length > 12 ? 12 : items.length)
+}
+
+/**
+ * countOutOfWorkingHours - function to count inspections recorded out of station's working hours
+ */
+function countOutOfWorkingHours(workingHours: any[], inspections: InspectionsInterface[]) {
+  let result = 0;
+  let days = {};
+
+  for (let i = 0; i < workingHours.length; i++) {
+    if (i == 6)
+      days[0] = workingHours[i].value
+    else
+      days[i + 1] = workingHours[i].value
+  }
+
+  inspections.forEach(inspection => {
+    let date = new Date(inspection.inspectionDate);
+    if (days[date.getDay()] == undefined)
+      result++;
+    else {
+      let match = days[date.getDay()].match(/(\d):(\d\d)-(\d\d):(\d\d)/);
+      let minH = match[1]
+      let maxH = match[3]
+      let maxM = match[4]
+
+      if ((date.getHours() < minH) || (date.getHours() > maxH))
+        result++;
+      else if ((date.getHours() == maxH) && (date.getMinutes() >= maxM))
+        result++;
+    }
+  });
+
+  return result;
+}
 
 @Component({
   selector: "app-single-station",
   templateUrl: "./single-station.component.html",
   styleUrls: ["./single-station.component.scss"]
 })
+
+/**
+ * SingleStationComponent represents a page which is dedicated to a single stations
+ */
 export class SingleStationComponent implements OnInit, OnDestroy {
-  station: StationsInterface = new StationsForm();
-  inspections: Array<InspectionsInterface> = new Array<InspectionsForm>();
-  @ViewChild("chart", {static: false}) pieChart: ChartComponent;
+  public station: StationsInterface = new StationsForm();
+  public inspections: Array<InspectionsInterface> = new Array<InspectionsForm>();
+  public workingHours = [];
+  public outOfWorkingHours = 0;
+  public invalidDates = 0;
+  public popularBrands = [];
+  public suspiciousDays = [];
+  @ViewChild("chart") pieChart: ChartComponent;
   public pieOptions: Partial<PieChartOptions>;
-  @ViewChild("chart", {static: false}) columnChart: ChartComponent;
-  public columnOptions: Partial<BarChartOptions>;
-  @ViewChild("chart", {static: false}) barChart: ChartComponent;
-  public barOptions: Partial<BarChartOptions>;
+  @ViewChild("chart") monthChart: ChartComponent;
+  public monthOptions: Partial<BarChartOptions>;
+  @ViewChild("chart") dayChart: ChartComponent;
+  public dayOptions: Partial<BarChartOptions>;
+  @ViewChild("chart") hourChart: ChartComponent;
+  public hourOptions: Partial<BarChartOptions>;
+  @ViewChild("chart") brandChart: ChartComponent;
+  public brandOptions: Partial<PieChartOptions>;
   private stationSubscription: Subscription;
   private inspectionSubscription: Subscription;
 
@@ -50,10 +168,6 @@ export class SingleStationComponent implements OnInit, OnDestroy {
               @Inject("StationsAPIService") private stationsService: StationsAPIService,
               @Inject("InspectionsAPIService") private inspectionsService: InspectionsAPIService) {
     this.pieOptions = {
-      title: {
-        text: "Výsledky prohlídek",
-        margin: 30
-      },
       series: [0, 0, 0],
       chart: {
         width: 380,
@@ -75,7 +189,33 @@ export class SingleStationComponent implements OnInit, OnDestroy {
       ]
     };
 
-    this.columnOptions = {
+    this.brandOptions = {
+      series: [0, 0, 0],
+      chart: {
+        width: 500,
+        height: 700,
+        type: "pie"
+      },
+      labels: [],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom",
+            }
+          }
+        }
+      ],
+      dataLabels: {
+        enabled: false
+      }
+    };
+
+    this.monthOptions = {
       series: [
         {
           name: "Kontrol",
@@ -116,9 +256,10 @@ export class SingleStationComponent implements OnInit, OnDestroy {
           "Lis",
           "Pro"
         ],
-        position: "top",
+        position: "bottom",
         labels: {
-          offsetY: -18
+          offsetY: 0,
+          show: true
         },
         axisBorder: {
           show: false
@@ -143,19 +284,6 @@ export class SingleStationComponent implements OnInit, OnDestroy {
           offsetY: -35
         }
       },
-      fill: {
-        type: "gradient",
-        gradient: {
-          shade: "light",
-          type: "horizontal",
-          shadeIntensity: 0.25,
-          gradientToColors: undefined,
-          inverseColors: true,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [50, 0, 100, 100]
-        }
-      },
       yaxis: {
         axisBorder: {
           show: false
@@ -166,20 +294,10 @@ export class SingleStationComponent implements OnInit, OnDestroy {
         labels: {
           show: false
         }
-      },
-      title: {
-        text: "Počet kontrol podle měsíce",
-        floating: false,
-        offsetY: 320,
-        margin: 30,
-        align: "center",
-        style: {
-          color: "#444"
-        }
       }
     };
 
-    this.barOptions = {
+    this.dayOptions = {
       series: [
         {
           name: "Kontrol",
@@ -199,12 +317,7 @@ export class SingleStationComponent implements OnInit, OnDestroy {
         }
       },
       dataLabels: {
-        enabled: true,
-        offsetY: -20,
-        style: {
-          fontSize: "12px",
-          colors: ["#304758"]
-        }
+        enabled: false
       },
       xaxis: {
         categories: [
@@ -213,32 +326,36 @@ export class SingleStationComponent implements OnInit, OnDestroy {
           "St",
           "Čt",
           "Pá",
-          "St",
+          "So",
           "Ne"
         ]
+      }
+    };
+
+    this.hourOptions = {
+      series: [
+        {
+          name: "Kontrol",
+          data: [0, 0, 0, 0, 0, 0, 0]
+        }
+      ],
+      chart: {
+        type: "bar",
+        height: 500
       },
-      title: {
-        text: "Počet kontrol podle dne v týdne",
-        floating: false,
-        offsetY: 320,
-        margin: 30,
-        align: "center",
-        style: {
-          color: "#444"
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            position: "top"
+          },
+          horizontal: true
         }
       },
-      fill: {
-        type: "gradient",
-        gradient: {
-          shade: "light",
-          type: "horizontal",
-          shadeIntensity: 0.25,
-          gradientToColors: undefined,
-          inverseColors: true,
-          opacityFrom: 1,
-          opacityTo: 1,
-          stops: [50, 0, 100, 100]
-        }
+      dataLabels: {
+        enabled: false
+      },
+      xaxis: {
+        categories: []
       }
     };
   }
@@ -252,7 +369,8 @@ export class SingleStationComponent implements OnInit, OnDestroy {
         flatMap(stationId => this.stationsService.getStationById(Number(stationId))))
       .subscribe(station => {
           this.station = station;
-          console.log("Subscribed to: ", station)
+          console.log("Subscribed to: ", station);
+          this.workingHours = parseWorkingHours(this.station.workingHours);
         }
       );
 
@@ -261,6 +379,10 @@ export class SingleStationComponent implements OnInit, OnDestroy {
         flatMap(stationId => this.inspectionsService.getInspectionsByStationId(Number(stationId))))
       .subscribe(inspections => {
           this.inspections = inspections;
+          this.outOfWorkingHours = countOutOfWorkingHours(this.workingHours, this.inspections);
+          this.invalidDates = countInvalidDates(this.inspections);
+          this.popularBrands = getPopularBrands(this.inspections);
+          this.suspiciousDays = countSuspiciousDays(this.inspections);
 
           //update dataseries for piechart (inspection result)
           this.pieOptions.series = [this.inspections.filter(inspection => inspection.inspectionResult == InspectionResult.PASSED).length,
@@ -268,26 +390,17 @@ export class SingleStationComponent implements OnInit, OnDestroy {
             this.inspections.filter(inspection => inspection.inspectionResult == InspectionResult.FAILED).length];
 
           //update dataseries for columnchart (monthly count)
-          this.columnOptions.series = [{
+          let array = []
+          for (let i = 0; i < 12; i++)
+            array.push(this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == i)).length)
+
+          this.monthOptions.series = [{
             name: "Kontrol",
-            data: [
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 0)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 1)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 2)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 3)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 4)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 5)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 6)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 7)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 8)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 9)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 10)).length,
-              this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getMonth() == 11)).length
-            ]
+            data: array
           }];
 
           //update dataseries for barchart (weekday count)
-          this.barOptions.series = [{
+          this.dayOptions.series = [{
             name: "Kontrol",
             data: [
               this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getDay() == 1)).length,
@@ -300,7 +413,40 @@ export class SingleStationComponent implements OnInit, OnDestroy {
             ]
           }];
 
-          console.log("Subscribed to: ", inspections);
+          //update dataseries for barchart (hourly count)
+          array = []
+          let labels = []
+          let minHour = (new Date(this.inspections.sort(compare)[0].inspectionDate)).getHours();
+          let maxHour = (new Date(this.inspections.sort(compare)[this.inspections.length - 1].inspectionDate)).getHours();
+
+          for (let i = minHour; i <= maxHour; i++) {
+            labels.push(i)
+            array.push(this.inspections.filter(inspection => (new Date(inspection.inspectionDate).getHours() == i)).length)
+          }
+
+          this.hourOptions.xaxis.categories = labels;
+          this.hourOptions.series = [{
+            name: "Kontrol",
+            data: array
+          }];
+
+          //update dataseries for piechart (popular brands)
+          array = [];
+          labels = [];
+          let total = 0;
+          this.popularBrands.forEach(brand => {
+            array.push(brand[1]);
+            labels.push(brand[0]);
+            total += brand[1];
+          });
+
+          if ((inspections.length - total) > 0) {
+            array.push(inspections.length - total);
+            labels.push('OTHER');
+          }
+
+          this.brandOptions.series = array;
+          this.brandOptions.labels = labels;
         }
       );
   }

@@ -10,9 +10,9 @@ import {MatHeaderCellDataSource, MatHeaderCellItem} from './mat-header-cell-data
   styleUrls: ['./mat-header-cell.component.scss']
 })
 export class MatHeaderCellComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatTable, {static: false}) table: MatTable<MatHeaderCellItem>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatTable) table: MatTable<MatHeaderCellItem>;
   dataSource: MatHeaderCellDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */

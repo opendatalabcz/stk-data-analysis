@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Anomálie</title>
+</head>
+<body>
+<h2 id="header">Anomálie zjištěná v průběhu analýzy <a
+  href="https://data.gov.cz/datov%C3%A1-sada?iri=https%3A%2F%2Fdata.gov.cz%2Fzdroj%2Fdatov%C3%A9-sady%2Fhttps---un7pp4qfr5.execute-api.eu-west-1.amazonaws.com-prod-package_show-id-stk_md_2018">dat</a>
+</h2>
+
+<div id="working_hours">
+  <h4>Kontroly mimo pracovní dobu</h4><br>
+  <p>Jednou ze základních věcí, kterou je možné zjistit z dat, která jsou již k dispozici, je
+    množství kontrol, provedených mimo pracovní dobu stanic, tj. po zavírací době nebo mimo
+    pracovní den. </p><br>
+
+  <div id="hours_chart">
+    <h5>Počet kontrol, provedených v podezřelých hodinách:</h5>
+    <apx-chart
+      [chart]="hourOptions.chart"
+      [dataLabels]="hourOptions.dataLabels"
+      [fill]="hourOptions.fill"
+      [plotOptions]="hourOptions.plotOptions"
+      [series]="hourOptions.series"
+      [xaxis]="hourOptions.xaxis"
+      [yaxis]="hourOptions.yaxis"
+    ></apx-chart>
+  </div>
+
+  <p>Většina prohlídek mezi 1:00 a 5:00 byly provedené na stanicích:
+    <a [routerLink]="[6711]">
+      <button color="primary" mat-raised-button>
+        {{6711}}
+      </button>
+    </a> a
+    <a [routerLink]="[3311]">
+      <button color="primary" mat-raised-button>
+        {{3311}}
+      </button>
+    </a>
+  </p>
+
+  <p>Většina prohlídek mezi 23:00 a 0:00 byly provedené na stanice:&nbsp;
+    <a [routerLink]="[6732]">
+      <button color="primary" mat-raised-button>
+        {{6732}}
+      </button>
+    </a>
+  </p>
+
+  <p>Prohlídky mimo pracovní dobu byly zaznamenaný u
+    <b>229</b> z 247 zkoumaných stanic a <b>43</b> stanic provádělo kontroly mimo pracovní den.</p>
+</div>
+
+<div id="capacity">
+  <h4>Anomální hustota prohlídek</h4><br>
+  <p>Součástí datasetu STK2018 bohužel není doba trvání prohlídky, ale jenom datum a čas
+    zápisu do systému. Stejně tak není součástí seznamu stanic dostupného na stránkách
+    Ministerstva dopravy ani počet kontrolních linek. Ale na se každý rok zveřejňuje časové
+    pracnosti kontrol a některé stanice na svých webových stránkách uvádějí počet kontrolních
+    linek. Z toho lze odhadnout průměrný počet prohlídek, které stanice provede během určitého
+    časového intervalu, a následně lze tento počet porovnat se skutečným počtem.</p>
+
+  <p *ngIf="capacity.length != 0">
+    Stanice, pro které byly zjištěny počty kontrolních linek:
+  </p>
+  <table *ngIf="capacity.length != 0" [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table"
+         id="table_capacity">
+    <tr class="table-info">
+      <td>STK ID</td>
+      <td>Počet linek</td>
+      <td>Odhad pracnosti v minutách</td>
+      <td>Celkový počet pracovních minut</td>
+      <td></td>
+    </tr>
+    <tr *ngFor="let station of capacity" class="row-data">
+      <td>
+        <a [routerLink]="[station.key]">
+          <button color="primary" mat-raised-button>
+            {{station.key}}
+          </button>
+        </a>
+      </td>
+      <td>{{station.value}}</td>
+      <td>{{station.est}}</td>
+      <td>{{station.total}}</td>
+      <td>
+        <span *ngIf="station.est > station.total" class="material-icons" id="capWarning">warning</span>
+        <span *ngIf="station.est < station.total" class="material-icons" id="capVerified">verified</span>
+      </td>
+  </table>
+
+  <div *ngIf="(inspectionsByStation[3851].length != 0) && (inspectionsByStation[3234].length != 0)" id="capacity_chart">
+    <h5>Střední počty kontrol na stanicích 3851 a 3234 podle dne v týdnu</h5>
+    <apx-chart
+      [chart]="capacityOptions.chart"
+      [dataLabels]="capacityOptions.dataLabels"
+      [fill]="capacityOptions.fill"
+      [plotOptions]="capacityOptions.plotOptions"
+      [series]="capacityOptions.series"
+      [xaxis]="capacityOptions.xaxis"
+      [yaxis]="capacityOptions.yaxis"
+    ></apx-chart>
+  </div>
+
+  <div *ngIf="typesOfInspection.length > 1" id="pie_chart_cap">
+    <h5>Počet kontrol na stanice 3851 podle druhu:</h5>
+    <apx-chart
+      [chart]="capacityPieOptions.chart"
+      [dataLabels]="capacityPieOptions.dataLabels"
+      [labels]="capacityPieOptions.labels"
+      [responsive]="capacityPieOptions.responsive"
+      [series]="capacityPieOptions.series"
+      [title]="capacityPieOptions.title"
+    ></apx-chart>
+  </div>
+</div>
+
+<div id="invalid_date">
+  <h4>Chybně zadané záznamy</h4><br>
+  <p>Nejstarší datum registrace vozidla v datasetu je 1. ledna 1753, což je jednoduše
+    minimální možný datum v sloupci datetime na SQL serveru. Dalšími jsou
+    automobily registrované v roce 1900, mezi kterými jsou například vozidla modelu Škoda Favorit,
+    vyráběných v letech 1988 až 1995, což opět vypovídá o nesprávně zadaných záznamech.
+    Mimo tato chybná data prohlídek je nejstarší datum registrace osobního vozidla
+    31. prosince 1917.</p><br>
+
+  <p *ngIf="invalidDates.length != 0">
+    Celkem chybně zadaných kontrol: <b>{{invalidDates.length}}</b>
+  </p>
+
+  <p *ngIf="invalidDates.length != 0">
+    Stanice s největšími počty chybně zadaných kontrol:
+  </p>
+  <table *ngIf="invalidDatesStations.length !=0" [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table"
+         id="table_invalid_stations">
+    <tr *ngFor="let station of invalidDatesStations" class="row-data">
+      <td>
+        <a [routerLink]="[station[0]]">
+          <button color="primary" mat-raised-button>
+            {{station[0]}}
+          </button>
+        </a>
+      </td>
+      <td>{{station[1]}}</td>
+    </tr>
+  </table>
+
+  <div *ngIf="popularBrands.length != 0" id="column_chart">
+    <h5>Nejčastější značky automobilů s chybně zadaným datem registrace:</h5>
+    <apx-chart
+      [chart]="brandOptions.chart"
+      [dataLabels]="brandOptions.dataLabels"
+      [fill]="brandOptions.fill"
+      [plotOptions]="brandOptions.plotOptions"
+      [series]="brandOptions.series"
+      [xaxis]="brandOptions.xaxis"
+      [yaxis]="brandOptions.yaxis"
+    ></apx-chart>
+  </div>
+</div>
+
+<div id="conjun">
+  <h4>Časové souběhy kontrol</h4><br>
+  <p>Pro zachycení anomálního chování pro každou dvojici značek byla proto vypočtena velmi
+    naivní pravděpodobnost, že se potkají, na základě počtu automobilů příslušné značky
+    v datasetu. Následně byl vypočten odhad počtu setkání na základě pravděpodobnosti
+    a procentuální rozdíl mezi odhadem a skutečným počtem.</p>
+
+  <p>Nejčastější dvojice značek jsou samozřejmě kombinace Škody a dalších nejpopulárnějších v České republice
+    značek:</p>
+
+  <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
+    <tr class="row-data">
+      <td>Škoda</td>
+      <td>Ford</td>
+    </tr>
+    <tr class="row-data">
+      <td>Škoda</td>
+      <td>Renault</td>
+    </tr>
+    <tr class="row-data">
+      <td>Škoda</td>
+      <td>Peugeot</td>
+    </tr>
+    <tr class="row-data">
+      <td>Škoda</td>
+      <td>Volkswagen</td>
+    </tr>
+  </table>
+
+  <p>Dvojice značek obsobních automobilů s největším procentuálním rozdílem a počtem setkání větším, než 100, jsou:</p>
+
+  <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
+    <tr class="row-data">
+      <td>Ferrari</td>
+      <td>BMW</td>
+    </tr>
+    <tr class="row-data">
+      <td>Lexus</td>
+      <td>Mercedes-Benz</td>
+    </tr>
+    <tr class="row-data">
+      <td>Volvo</td>
+      <td>Lexus</td>
+    </tr>
+    <tr class="row-data">
+      <td>Mercedes-Benz</td>
+      <td>Porsche</td>
+    </tr>
+    <tr class="row-data">
+      <td>BMW</td>
+      <td>Porsche</td>
+    </tr>
+  </table>
+
+  <p>Výsledky této analýzy poukázaly na přítomnost příznaků podezřelého chování,
+    tj. anomálně častých souběhů značek automobilů, na <b>46</b> z 419 zkoumaných stanic.</p>
+</div>
+</body>
+</html>

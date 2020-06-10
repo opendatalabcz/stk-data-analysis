@@ -6,6 +6,10 @@ import {Component} from "@angular/core";
   templateUrl: "./layout.component.html",
   styleUrls: ["./layout.component.scss"]
 })
+
+/**
+ * CoreLayoutComponent represents application's layout
+ */
 export class CoreLayoutComponent {
 
 }

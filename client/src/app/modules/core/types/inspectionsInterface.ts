@@ -43,5 +43,6 @@ export enum InspectionResult {
 export enum EmissionControlResult {
   PASSED = "vyhovuje",
   FAILED = "nevyhovuje",
-  PARTLY_PASSED = "castecne vyhovuje"
+  PARTLY_PASSED = "castecne vyhovuje",
+  NOT_MEASURED = "---"
 }

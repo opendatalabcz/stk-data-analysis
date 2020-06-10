@@ -6,8 +6,7 @@ import {StationsComponent} from "./pages/stations/stations.component";
 import {SingleStationComponent} from "./pages/single-station/single-station.component";
 import {StatisticsComponent} from "./pages/statistics/statistics.component";
 import {AboutComponent} from "./pages/about/about.component";
-import {SuspiciousBehaviourComponent} from "./pages/suspicious-behavior/suspicious-behaviour.component";
-
+import {SuspiciousBehaviourComponent} from "./pages/suspicious-behaviour/suspicious-behaviour.component";
 
 const routes: Routes = [
   {
@@ -36,6 +35,14 @@ const routes: Routes = [
       {
         path: "",
         component: SuspiciousBehaviourComponent
+      },
+      {
+        path: ":stationId",
+        component: SingleStationComponent
+      },
+      {
+        path: "stations",
+        component: StationsComponent
       }
     ]
   },

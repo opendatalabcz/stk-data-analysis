@@ -1,6 +1,6 @@
 import {async, TestBed} from "@angular/core/testing";
 import {RouterTestingModule} from "@angular/router/testing";
-import {StatisticsComponent} from "./statistics.component";
+import {SuspiciousBehaviourComponent} from "./suspicious-behaviour.component";
 import {NgApexchartsModule} from "ng-apexcharts";
 import {StationsService} from "../../services/stations-service.interface";
 import {Observable} from "rxjs";
@@ -43,7 +43,7 @@ class TestInspectionsMockService implements InspectionsService {
 
 }
 
-describe("StatisticsComponent", () => {
+describe("SuspiciousBehaviourComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -51,7 +51,7 @@ describe("StatisticsComponent", () => {
         NgApexchartsModule
       ],
       declarations: [
-        StatisticsComponent
+        SuspiciousBehaviourComponent
       ],
       providers: [
         {
@@ -65,7 +65,7 @@ describe("StatisticsComponent", () => {
   }));
 
   it("should create the component", () => {
-    const fixture = TestBed.createComponent(StatisticsComponent);
+    const fixture = TestBed.createComponent(SuspiciousBehaviourComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });

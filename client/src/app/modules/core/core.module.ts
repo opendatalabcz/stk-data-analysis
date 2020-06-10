@@ -23,7 +23,6 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCardModule} from '@angular/material/card';
-import {MdbWavesEffectComponent} from './types/material/mdb-waves-effect/mdb-waves-effect.component';
 import {StatisticsComponent} from "./pages/statistics/statistics.component";
 import {MaterialHeaderComponent} from './types/material/material-header/material-header.component';
 import {AboutComponent} from "./pages/about/about.component";
@@ -38,7 +37,9 @@ import {MatColumnDefComponent} from './types/material/mat-column-def/mat-column-
 import {MatHeaderRowComponent} from './types/material/mat-header-row/mat-header-row.component';
 import {MatRowComponent} from './types/material/mat-row/mat-row.component';
 import {NgApexchartsModule} from "ng-apexcharts";
-import {SuspiciousBehaviourComponent} from "./pages/suspicious-behavior/suspicious-behaviour.component";
+import {SuspiciousBehaviourComponent} from "./pages/suspicious-behaviour/suspicious-behaviour.component";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {ZeroToDashPipe} from "./types/pipes/ZeroToDash.pipe";
 
 @NgModule({
   declarations: [
@@ -48,8 +49,8 @@ import {SuspiciousBehaviourComponent} from "./pages/suspicious-behavior/suspicio
     StationsComponent,
     SingleStationComponent,
     NavComponent,
+    ZeroToDashPipe,
     MdbBtnComponent,
-    MdbWavesEffectComponent,
     StatisticsComponent,
     MaterialHeaderComponent,
     AboutComponent,
@@ -82,7 +83,8 @@ import {SuspiciousBehaviourComponent} from "./pages/suspicious-behavior/suspicio
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {

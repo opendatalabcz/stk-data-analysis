@@ -10,9 +10,9 @@ import {MatRowDataSource, MatRowItem} from './mat-row-datasource';
   styleUrls: ['./mat-row.component.scss']
 })
 export class MatRowComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatTable, {static: false}) table: MatTable<MatRowItem>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatTable) table: MatTable<MatRowItem>;
   dataSource: MatRowDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */

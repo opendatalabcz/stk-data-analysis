@@ -10,9 +10,9 @@ import {MatColumnDefDataSource, MatColumnDefItem} from './mat-column-def-datasou
   styleUrls: ['./mat-column-def.component.scss']
 })
 export class MatColumnDefComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatTable, {static: false}) table: MatTable<MatColumnDefItem>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatTable) table: MatTable<MatColumnDefItem>;
   dataSource: MatColumnDefDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */

@@ -30,5 +30,63 @@
 }
 
 #note {
-  padding: 80px;
+  padding-top: 80px;
+  width: 200px;
+}
+
+#hours {
+  padding-left: 10px;
+  padding-bottom: 30px;
+}
+
+#suspiciousTable {
+  padding-top: 80px;
+}
+
+#pie_chart_brand {
+  padding-top: 80px;
+}
+
+#hoursVerified {
+  color: rgb(32, 191, 32);
+}
+
+#datesVerified {
+  color: rgb(32, 191, 32);
+}
+
+#densVerified {
+  color: rgb(32, 191, 32);
+}
+
+#hoursWarning {
+  color: rgb(236, 146, 46);
+}
+
+#datesWarning {
+  color: rgb(236, 146, 46);
+}
+
+#densWarning {
+  color: rgb(236, 146, 46);
+}
+
+#hoursError {
+  color: rgb(144, 10, 10);
+}
+
+#datesError {
+  color: rgb(144, 10, 10);
+}
+
+#densError {
+  color: rgb(144, 10, 10);
+}
+
+#anomaly {
+  padding-bottom: 30px;
+}
+
+.table_header {
+  padding-left: 35px;
 }

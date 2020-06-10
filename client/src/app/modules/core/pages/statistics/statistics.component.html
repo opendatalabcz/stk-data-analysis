@@ -5,17 +5,71 @@
   <title>Statistiky</title>
 </head>
 <body>
-<h2>Celkové statistiky kontrol v roce 2018</h2>
+<h2 id="header">Celkové statistiky kontrol v roce 2018</h2>
+<div *ngIf="results.length != 0" id="pie_chart_res">
+  <h5>Výsledky prohlídek:</h5>
+  <apx-chart
+    [chart]="pieOptions.chart"
+    [labels]="pieOptions.labels"
+    [responsive]="pieOptions.responsive"
+    [series]="pieOptions.series"
+  ></apx-chart>
+</div>
+<div *ngIf="resultsEmission.length != 0" id="pie_chart_emission">
+  <h5>Výsledky měření emisí:</h5>
+  <apx-chart
+    [chart]="pieOptionsEmission.chart"
+    [labels]="pieOptionsEmission.labels"
+    [responsive]="pieOptionsEmission.responsive"
+    [series]="pieOptionsEmission.series"
+  ></apx-chart>
+</div>
 <div id="column_chart">
+  <h5>Počet kontrol podle měsíce:</h5>
   <apx-chart
     [chart]="columnOptions.chart"
     [dataLabels]="columnOptions.dataLabels"
     [fill]="columnOptions.fill"
     [plotOptions]="columnOptions.plotOptions"
     [series]="columnOptions.series"
-    [title]="columnOptions.title"
     [xaxis]="columnOptions.xaxis"
     [yaxis]="columnOptions.yaxis"
+  ></apx-chart>
+</div>
+<div *ngIf="stations.length != 0" id="prices_chart">
+  <h5>Střendí cena pravidelné prohlídky podle kraje:</h5>
+  <apx-chart
+    [chart]="pricesOptions.chart"
+    [dataLabels]="pricesOptions.dataLabels"
+    [fill]="pricesOptions.fill"
+    [plotOptions]="pricesOptions.plotOptions"
+    [series]="pricesOptions.series"
+    [xaxis]="pricesOptions.xaxis"
+    [yaxis]="pricesOptions.yaxis"
+  ></apx-chart>
+</div>
+<div *ngIf="stations.length != 0" id="prices_chart_ev">
+  <h5>Střendí cena evidenční kontroly podle kraje:</h5>
+  <apx-chart
+    [chart]="pricesOptionsEv.chart"
+    [dataLabels]="pricesOptionsEv.dataLabels"
+    [fill]="pricesOptionsEv.fill"
+    [plotOptions]="pricesOptionsEv.plotOptions"
+    [series]="pricesOptionsEv.series"
+    [xaxis]="pricesOptionsEv.xaxis"
+    [yaxis]="pricesOptionsEv.yaxis"
+  ></apx-chart>
+</div>
+<div *ngIf="stations.length != 0" id="region_chart">
+  <h5>Výsledky kontrol podle kraje:</h5>
+  <apx-chart
+    [chart]="resultByRegionOptions.chart"
+    [dataLabels]="resultByRegionOptions.dataLabels"
+    [fill]="resultByRegionOptions.fill"
+    [plotOptions]="resultByRegionOptions.plotOptions"
+    [series]="resultByRegionOptions.series"
+    [xaxis]="resultByRegionOptions.xaxis"
+    [yaxis]="resultByRegionOptions.yaxis"
   ></apx-chart>
 </div>
 </body>

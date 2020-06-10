@@ -6,7 +6,8 @@
 </head>
 <body>
 <div *ngIf="station" id="info">
-  <h1><b>{{station.operator}}</b></h1>
+  <h1><b>{{station.operator}}</b>
+  </h1>
   <div id="card">
     <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
       <tr>
@@ -27,7 +28,7 @@
       </tr>
       <tr>
         <td><b>E-mail</b></td>
-        <td>{{station.email}}</td>
+        <td><a href="mailto:{{station.email}}">{{station.email}}</a></td>
       </tr>
       <tr>
         <td><b>Rozsah oprávnění</b></td>
@@ -35,7 +36,7 @@
       </tr>
     </table>
   </div>
-  <div id="price" *ngIf="station.inspectionPrice">
+  <div *ngIf="station.inspectionPrice" id="price">
     <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
       <tr>
         <td><b>Technická kontrola</b></td>
@@ -44,51 +45,125 @@
         <td><b>Emise (nafta)</b></td>
       </tr>
       <tr>
-        <td>{{station.inspectionPrice}} Kč</td>
-        <td>{{station.evInspectionPrice}} Kč</td>
-        <td>{{station.emissionPriceB}} Kč</td>
-        <td>{{station.emissionPriceN}} Kč</td>
+        <td>{{station.inspectionPrice | zeroToDash}}</td>
+        <td>{{station.evInspectionPrice | zeroToDash}} </td>
+        <td>{{station.emissionPriceB | zeroToDash}} </td>
+        <td>{{station.emissionPriceN | zeroToDash}} </td>
       </tr>
     </table>
   </div>
-  <div id="note" *ngIf="station.workingHours">
-    <p>{{station.workingHours}}</p>
+
+  <div *ngIf="station.workingHours != '0'" id="note">
+    <h4 id="hours"><span class="material-icons">date_range</span> Provozní doba:</h4>
+    <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table" id="workingHoursTable">
+      <tr *ngFor="let day of workingHours" class="row-data">
+        <td>{{day.key}}</td>
+        <td>{{day.value}}</td>
+      </tr>
+    </table>
   </div>
+
+  <div id="suspiciousTable">
+    <h4 id="anomaly"><span class="material-icons">error_outline</span> Anomálie:</h4>
+    <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
+      <tr *ngIf="(station.workingHours != '0') && (inspections.length != 0)">
+        <td>
+          <b>Počet kontrol mimo provozní dobu:</b>
+        </td>
+        <td>{{outOfWorkingHours}}</td>
+        <td>
+          <span *ngIf="(outOfWorkingHours == 0)" class="material-icons" id="hoursVerified">verified</span>
+          <span *ngIf="((outOfWorkingHours > 0) && (outOfWorkingHours <= 100))" class="material-icons"
+                id="hoursWarning">warning</span>
+          <span *ngIf="(outOfWorkingHours > 100)" class="material-icons" id="hoursError">error</span>
+        </td>
+      </tr>
+      <tr *ngIf="inspections.length != 0">
+        <td>
+          <b>Počet chybně zadaných kontrol:</b>
+        </td>
+        <td>{{invalidDates}}</td>
+        <td>
+          <span *ngIf="(invalidDates == 0)" class="material-icons" id="datesVerified">verified</span>
+          <span *ngIf="((invalidDates > 0) && (invalidDates <= 15))" class="material-icons"
+                id="datesWarning">warning</span>
+          <span *ngIf="(invalidDates > 15)" class="material-icons" id="datesError">error</span>
+        </td>
+      </tr>
+      <tr *ngIf="inspections.length != 0">
+        <td>
+          <b>Počet dnů s anomálně vysokým počtem kontrol:</b>
+        </td>
+        <td>{{suspiciousDays.length}}</td>
+        <td>
+          <span *ngIf="(suspiciousDays.length == 0)" class="material-icons" id="densVerified">verified</span>
+          <span *ngIf="((suspiciousDays.length > 0) && (suspiciousDays.length <= 15))" class="material-icons"
+                id="densWarning">warning</span>
+          <span *ngIf="(suspiciousDays.length > 15)" class="material-icons" id="densError">error</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div *ngIf="popularBrands.length != 0" id="pie_chart_brand">
+    <h5>Nejčastější značky automobilů:</h5>
+    <apx-chart
+      [chart]="brandOptions.chart"
+      [dataLabels]="brandOptions.dataLabels"
+      [labels]="brandOptions.labels"
+      [responsive]="brandOptions.responsive"
+      [series]="brandOptions.series"
+    ></apx-chart>
+  </div>
+
 </div>
 <div *ngIf="inspections.length != 0" id="stat">
   <h2>Statistiky kontrol v roce 2018</h2>
   <p id="total">Celkem kontrol: <b>{{inspections.length}}</b></p>
   <div id="pie_chart">
+    <h5>Výsledky prohlídek:</h5>
     <apx-chart
       [chart]="pieOptions.chart"
       [labels]="pieOptions.labels"
       [responsive]="pieOptions.responsive"
       [series]="pieOptions.series"
-      [title]="pieOptions.title"
     ></apx-chart>
   </div>
   <div id="column_chart">
+    <h5 class="table_header">Počet kontrol podle měsíce:</h5>
     <apx-chart
-      [chart]="columnOptions.chart"
-      [dataLabels]="columnOptions.dataLabels"
-      [fill]="columnOptions.fill"
-      [plotOptions]="columnOptions.plotOptions"
-      [series]="columnOptions.series"
-      [title]="columnOptions.title"
-      [xaxis]="columnOptions.xaxis"
-      [yaxis]="columnOptions.yaxis"
+      [chart]="monthOptions.chart"
+      [dataLabels]="monthOptions.dataLabels"
+      [fill]="monthOptions.fill"
+      [plotOptions]="monthOptions.plotOptions"
+      [series]="monthOptions.series"
+      [xaxis]="monthOptions.xaxis"
+      [yaxis]="monthOptions.yaxis"
     ></apx-chart>
   </div>
   <div id="bar_chart">
+    <h5 class="table_header">Počet kontrol podle dne v týdnu:</h5>
     <apx-chart
-      [chart]="barOptions.chart"
-      [dataLabels]="barOptions.dataLabels"
-      [fill]="barOptions.fill"
-      [plotOptions]="barOptions.plotOptions"
-      [series]="barOptions.series"
-      [title]="barOptions.title"
-      [xaxis]="barOptions.xaxis"
-      [yaxis]="barOptions.yaxis"
+      [chart]="dayOptions.chart"
+      [dataLabels]="dayOptions.dataLabels"
+      [fill]="dayOptions.fill"
+      [plotOptions]="dayOptions.plotOptions"
+      [series]="dayOptions.series"
+      [xaxis]="dayOptions.xaxis"
+      [yaxis]="dayOptions.yaxis"
+    ></apx-chart>
+  </div>
+
+  <div id="bar_chart_hour">
+    <h5 class="table_header">Počet kontrol podle času:</h5>
+    <apx-chart
+      [chart]="hourOptions.chart"
+      [dataLabels]="hourOptions.dataLabels"
+      [fill]="hourOptions.fill"
+      [plotOptions]="hourOptions.plotOptions"
+      [series]="hourOptions.series"
+      [xaxis]="hourOptions.xaxis"
+      [yaxis]="hourOptions.yaxis"
     ></apx-chart>
   </div>
 </div>

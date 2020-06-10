@@ -20,4 +20,20 @@ export class InspectionsAPIService implements InspectionsService {
     console.log("Sending request to " + BACKEND_URL + "inspections/monthcount/" + month);
     return this.http.get<number>(BACKEND_URL + "inspections/monthcount/" + month);
   }
+
+  getInspectionsByResult(result: string): Observable<number> {
+    console.log("Sending request to " + BACKEND_URL + "/inspections/count/result/" + result);
+    return this.http.get<number>(BACKEND_URL + "/inspections/count/result/" + result);
+  }
+
+  getInspectionsByEmissionResult(result: string): Observable<number> {
+    console.log("Sending request to " + BACKEND_URL + "/inspections/count/emission/" + result);
+    return this.http.get<number>(BACKEND_URL + "/inspections/count/emission/" + result);
+  }
+
+  getInspectionsWithDateBefore(date: string): Observable<InspectionsInterface[]> {
+    console.log("Sending request to " + BACKEND_URL + "/inspections/date/before/" + date);
+    return this.http.get<InspectionsInterface[]>(BACKEND_URL + "/inspections/date/before/" + date);
+  }
+
 }

@@ -1,24 +1,46 @@
 <div class="container">
 
   <h1 class="my-4">O portálu</h1>
-  <p class="my-4">Portál výsledků analýzy <a
+  <p class="my-4" id="uvod">Portál obsahuje výsledky analýzy <a
     href="https://data.gov.cz/datov%C3%A1-sada?iri=https%3A%2F%2Fdata.gov.cz%2Fzdroj%2Fdatov%C3%A9-sady%2Fhttps---un7pp4qfr5.execute-api.eu-west-1.amazonaws.com-prod-package_show-id-stk_md_2018">dat</a>
-    a dalších informací o stanicích technické kontroly.</p>
+    a další informace o stanicích technické kontroly a byl vypracován v rámci bakalářské práce na Fakultě informačních
+    technologií ČVUT v roce 2020.
+    Účelem tohoto portálu je nejen popisovat stanice a statistiky kontrol a takže upozorňovat na
+    podezřelé chování na stanicích.</p>
   <br>
-  <p>TODO: popis portalu</p>
+  <div id="info">
+    <p><a
+      href="https://data.gov.cz/datov%C3%A1-sada?iri=https%3A%2F%2Fdata.gov.cz%2Fzdroj%2Fdatov%C3%A9-sady%2Fhttps---un7pp4qfr5.execute-api.eu-west-1.amazonaws.com-prod-package_show-id-stk_md_2018">Dataset</a>,
+      který je středem pozornosti tohoto portálu, je úplný seznam jednotlivých kontrol
+      na stanicích technické kontroly v roce 2018.
+      Je evidován v národním katalogu otevřených dat a byl získán od ministerstva dopravy
+      podle zákona o svobodném přístupu k informacím č. 106/1999 Sb.
+    <p>
+
+    <p>Datová sada je ke stažení ve formátu XML a obsahuje 3 728 369 záznamů o jednotlivých prohlídkách
+      na stanicích technické kontroly v celé České republice a zahrnuje jak údaje o výsledcích kontroly,
+      tak i údaje o vozidle samotném:</p>
+  </div>
+  <img alt="stk_icon" id="stk_icon" src="assets/stk-sme.png">
+  <img alt="xml" id="xml" src="assets/xml.png">
   <div id="section1">
-    <h3>Sekce <a [routerLink]="'/stations'">Stanice</a></h3>
-    <p>TODO: popis sekce</p>
+    <h3>Sekce <a [routerLink]="'/stations'"><i>Stanice</i></a></h3>
+    <p>Tato sekce obsahuje seznam stanic technické kontroly, ve kterém se lze vyhledávat pomocí zadání dotazu do
+      políčka "Hledat". Stanice jsou seřazené podle ceny kontroly. Kliknutím na ID jednotlivé stanice budete
+      přesměrováni na stránku věnovanou příslušné stanice. Na ní uvidíte podrobnější informace o stanice a
+      statistiky kontrol v roce 2018.</p>
   </div>
 
   <div id="section2">
-    <h3>Sekce <a [routerLink]="'/statistics'">Statistiky</a></h3>
-    <p>TODO: popis sekce</p>
+    <h3>Sekce <a [routerLink]="'/statistics'"><i>Statistiky</i></a></h3>
+    <p>Tato sekce obsahuje grafy, znazorňující hromadné statistiky kontrol na stanicích
+      technické kontroly v roce 2018.</p>
   </div>
 
   <div id="section3">
-    <h3>Sekce <a [routerLink]="'/suspicious'">Podezřelé chování</a></h3>
-    <p>TODO: popis sekce</p>
+    <h3>Sekce <a [routerLink]="'/suspicious'"><i>Anomálie</i></a></h3>
+    <p>Tato sekce obsahuje grafy a další informace o příznaky podezřelého chování na stanicích technické kontroly,
+      které byly odhalené v rámci analýzy datasetu STK2018.</p>
   </div>
 
 </div>
