@@ -270,4 +270,14 @@ public class InspectionController {
         logger.info("Found " + inspectionsCount + " inspections for result: " + result);
         return ResponseEntity.ok().body(inspectionsCount);
     }
+
+
+    @GetMapping("/inspections/vin/{VIN}")
+    public ResponseEntity<List<Inspection>> getInspectionsByVin(@PathVariable(value = "VIN") String VIN) throws ResourceNotFoundException {
+        List<Inspection> inspections = inspectionRepository.findByVINIsContaining(VIN);
+        if (inspections.isEmpty())
+            throw new ResourceNotFoundException("Inspections not found for this station id :: " + VIN);
+        logger.info("Found " + inspections.size() + " inspections for " + VIN);
+        return ResponseEntity.ok().body(inspections);
+    }
 }

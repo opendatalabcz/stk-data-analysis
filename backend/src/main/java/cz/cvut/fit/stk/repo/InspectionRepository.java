@@ -38,5 +38,8 @@ public interface InspectionRepository extends JpaRepository<Inspection, Long> {
     Long countByInspectionResult(String result);
 
     Long countByEmissionControlResult(String result);
+
+    List<Inspection> findByVINIsContaining(String beginVIN);
+
 }
 
