@@ -10,9 +10,9 @@ export class InspectionsAPIService implements InspectionsService {
   constructor(private http: HttpClient) {
   }
 
-  getInspectionsByVin(VIN: string) {
-    console.log("Sending request to " + BACKEND_URL + "inspections/vin/"+ VIN);
-    return this.http.get<InspectionsInterface[]>(BACKEND_URL + "inspections/vin/" + VIN);
+  getInspectionsByVin(VIN: string): Observable<InspectionsInterface[]> {
+    console.log("Sending request to " + BACKEND_URL + "vinInfo/"+ VIN);
+    return this.http.get<InspectionsInterface[]>(BACKEND_URL + "vinInfo/" + VIN);
   }
 
   getInspectionsByStationId(stationId: number): Observable<InspectionsInterface[]> {

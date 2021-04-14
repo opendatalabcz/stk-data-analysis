@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -272,8 +273,12 @@ public class InspectionController {
     }
 
 
-    @GetMapping("/inspections/vin/{VIN}")
+   // @GetMapping("/inspections/vin/{VIN}")
+   @GetMapping("/vinInfo/{VIN}")
     public ResponseEntity<List<Inspection>> getInspectionsByVin(@PathVariable(value = "VIN") String VIN) throws ResourceNotFoundException {
+        if (VIN.length() <= 4) {
+            return ResponseEntity.ok().body(new ArrayList<>());
+        }
         List<Inspection> inspections = inspectionRepository.findByVINIsContaining(VIN);
         if (inspections.isEmpty())
             throw new ResourceNotFoundException("Inspections not found for this station id :: " + VIN);

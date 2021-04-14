@@ -8,45 +8,68 @@
 
 <form>
   <div class="form-group form-inline">
-    Zadej VIN číslo (alespoň 5 znaků): <input [formControl]="filter" class="form-control ml-2" type="text"/>
+    Zadej VIN číslo (alespoň 5 znaků): <input (input)="onSearchChange($event.target.value)" class="form-control ml-2" type="text" #vyhladavac id="vyhladavac"/>
   </div>
 </form>
 
 
 <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
-    <col width="300px"/>
-    <col width="250px"/>
-    <col width="250px"/>
-    <col width="250px"/>
+   
     <tr class="table-info">
       <td>VIN</td>
       <td>Značka</td>
       <td>Model</td>
       <td>Druh</td>
+      <td>Kód motoru</td>
       <td>Datum 1. registrace</td>
+      <td>km</td>
+      <td>Typ kontroly</td>
+      <td>Datum kontroly</td>
+      <td>Výsledek STK:</td>
+      <td>Výsledek Emise:</td>
     </tr>
   
+    
     <tr *ngFor="let inspection of inspections$| async" class="row-data">
-      <td>
-        <a [routerLink]="[inspection.vin]">
-          <button color="primary" mat-raised-button>
-            
-          </button>
-        </a>
-      </td>
-      <td>
-        
-      </td>
-      <td>
-        
-      </td>
-      <td>
-        
-      </td>
-      <td>
-        
-    </td>
-    </tr>
+        <td class="vin label">
+          <!--<a [routerLink]="[inspection.vin]"> -->
+           <!-- <button color="primary" mat-raised-button (click)="changeLabelName(a)">  -->
+              {{inspection.vin}}
+          <!-- </button> -->
+          <!--</a> --> 
+        </td>
+        <td>
+          {{inspection.vehicleBrand}}
+        </td>
+        <td>
+          {{inspection.vehicleModel}}
+        </td>
+        <td>
+          {{inspection.vehicleCategory}}
+        </td>
+        <td>
+          {{inspection.engineType}}
+        </td>
+        <td >
+          {{inspection.firstRegistrationDate | date}}
+        </td>
+        <td>
+          {{inspection.mileage}}
+        </td>
+        <td>
+          {{inspection.inspectionType}}
+        </td>
+        <td >
+          {{inspection.inspectionDate | date}}
+        </td>
+        <td>
+          {{inspection.inspectionResult}}
+        </td>
+        <td>
+          {{inspection.emissionControlResult}}
+        </td>
+
+      </tr>      
   </table>
   
   </body>

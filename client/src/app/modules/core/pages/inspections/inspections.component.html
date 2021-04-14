@@ -6,14 +6,14 @@
 </head>
 <body>
 
-<div *ngIf="inspections" id="info">
+<div *ngIf="inspection" id="info">
   <h1><b>  </b>
   </h1>
   <div id="VinCard">
     <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
       <tr>
         <td><b>Značka:</b></td>
-        <td></td>
+        <td>{{inspection.VIN}}</td>
       </tr>
       <tr>
         <td><b>Model:</b></td>

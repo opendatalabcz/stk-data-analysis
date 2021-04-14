@@ -6,31 +6,16 @@ import {InspectionsInterface} from "../../types/inspectionsInterface";
 import {FormControl} from "@angular/forms";
 import {DecimalPipe} from "@angular/common";
 import {Observable} from "rxjs";
-import {map, startWith} from "rxjs/operators";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Subscription} from "rxjs";
+import {delay, flatMap, startWith, map} from "rxjs/operators";
+import { InspectionsForm } from "../../types/inspectionsForm";
 
 /**
  * search - filter stations by query entered to textFiled 'Hledat'
  */
 
-function search(inspections: InspectionsInterface[], text: string, pipe: PipeTransform): InspectionsInterface[] {
-    return inspections.filter(inspection => {
-      const term = text.toLowerCase();
-      let filtered;
-  
-      try {
-        filtered = inspection.VIN.toLowerCase().includes(term)
-          || inspection.engineType.toString().includes(term)
-          || inspection.vehicleBrand.toLowerCase().includes(term)
-          || inspection.vehicleModel.toLowerCase().includes(term)
-          || inspection.vehicleType.toLowerCase().includes(term)
-        //filtered = filtered.sort(compare);
-      } catch (e) {
-        console.log("Failed to transform operator for data: " + inspection);
-      }
-  
-      return filtered;
-    });
-  }
+// TODO, priprava do buducna
 
 @Component({
   selector: "app-inspections",
@@ -43,17 +28,30 @@ function search(inspections: InspectionsInterface[], text: string, pipe: PipeTra
  */
 
   export class InspectionsComponent implements OnInit {
-    public filter = new FormControl('');
-    public pipe: String;
-    public inspections: Array<InspectionsAPIService> = [];
-    public VIN: Observable<InspectionsAPIService[]>;
+   // public filter = new FormControl('');
+   // public pipe: String;
+   // public inspections: Array<InspectionsAPIService> = [];
+   // public VIN: Observable<InspectionsAPIService[]>;
+   private inspectionSubscription: Subscription;
+   public inspection: InspectionsInterface = new InspectionsForm();
 
 
-  constructor(@Inject("InspectionsAPIService") private inspectionService: InspectionsAPIService) {
-  }
+
+  
+  constructor(private activatedRoute: ActivatedRoute, private router: Router,
+    @Inject("InspectionsAPIService") private inspectionsService: InspectionsAPIService){}
 
   ngOnInit(): void {
-    this.inspectionService.getInspectionsByVin(String(this.VIN)).subscribe(vin => {
+    this.inspectionSubscription = this.activatedRoute.paramMap
+    .pipe(map(p => p.get("inspections"), delay(100)),
+      flatMap(vin => this.inspectionsService.getInspectionsByVin(String(vin)))) //todo prerobit pre viac rokov..
+    .subscribe(inspections => {
+        this.inspection = inspections[0]; //todo prerobit pre viac rokov..
+        console.log("Subscribed to: ", inspections);
+      }
+    );
+    
+    //this.inspectionService.getInspectionsByVin(String(this.VIN)).subscribe(vin => {
     //flatMap(VIN => this.inspectionService.getInspectionsByVin(String(VIN))).subscribe(inspections => {
      // this.inspections = inspections.sort();
      // this.inspections$ = this.filter.valueChanges.pipe(
@@ -61,7 +59,7 @@ function search(inspections: InspectionsInterface[], text: string, pipe: PipeTra
      //   map(text => search(inspections, text, this.pipe))
      // );
      // console.log(inspections);
-    });
+    //});
   }
 
 }
