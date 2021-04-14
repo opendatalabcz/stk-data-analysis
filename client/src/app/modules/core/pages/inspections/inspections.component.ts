@@ -28,16 +28,10 @@ import { InspectionsForm } from "../../types/inspectionsForm";
  */
 
   export class InspectionsComponent implements OnInit {
-   // public filter = new FormControl('');
-   // public pipe: String;
-   // public inspections: Array<InspectionsAPIService> = [];
-   // public VIN: Observable<InspectionsAPIService[]>;
    private inspectionSubscription: Subscription;
    public inspection: InspectionsInterface = new InspectionsForm();
 
 
-
-  
   constructor(private activatedRoute: ActivatedRoute, private router: Router,
     @Inject("InspectionsAPIService") private inspectionsService: InspectionsAPIService){}
 
@@ -50,30 +44,6 @@ import { InspectionsForm } from "../../types/inspectionsForm";
         console.log("Subscribed to: ", inspections);
       }
     );
-    
-    //this.inspectionService.getInspectionsByVin(String(this.VIN)).subscribe(vin => {
-    //flatMap(VIN => this.inspectionService.getInspectionsByVin(String(VIN))).subscribe(inspections => {
-     // this.inspections = inspections.sort();
-     // this.inspections$ = this.filter.valueChanges.pipe(
-     //   startWith(''),
-     //   map(text => search(inspections, text, this.pipe))
-     // );
-     // console.log(inspections);
-    //});
   }
 
 }
-
-/*
-
-ngOnInit(): void {
-  this.stationSubscription = this.activatedRoute.paramMap
-    .pipe(map(p => p.get("stationId"), delay(100)),
-      flatMap(stationId => this.stationsService.getStationById(Number(stationId))))
-    .subscribe(station => {
-        this.station = station;
-        console.log("Subscribed to: ", station);
-        this.workingHours = parseWorkingHours(this.station.workingHours);
-      }
-    );
-    */
