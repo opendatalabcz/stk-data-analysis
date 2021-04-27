@@ -276,7 +276,7 @@ public class InspectionController {
    // @GetMapping("/inspections/vin/{VIN}")
    @GetMapping("/vinInfo/{VIN}")
     public ResponseEntity<List<Inspection>> getInspectionsByVin(@PathVariable(value = "VIN") String VIN) throws ResourceNotFoundException {
-        if (VIN.length() <= 4) {
+        if (VIN.length() <= 7) {
             return ResponseEntity.ok().body(new ArrayList<>());
         }
         List<Inspection> inspections = inspectionRepository.findByVINIsContaining(VIN);
