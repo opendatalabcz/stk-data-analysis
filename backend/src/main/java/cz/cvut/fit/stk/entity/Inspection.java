@@ -15,7 +15,8 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "kontroly")
+//@Table(name = "kontroly")
+@Table(name = "kontroly_all")
 public class Inspection {
 
     @Id

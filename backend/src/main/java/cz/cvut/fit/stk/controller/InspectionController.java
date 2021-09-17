@@ -1,20 +1,31 @@
 package cz.cvut.fit.stk.controller;
 
 import cz.cvut.fit.stk.entity.Inspection;
+import cz.cvut.fit.stk.entity.Log;
 import cz.cvut.fit.stk.exception.ResourceNotFoundException;
 import cz.cvut.fit.stk.repo.InspectionRepository;
+import cz.cvut.fit.stk.repo.LogRepository;
+import org.hibernate.Hibernate;
+import org.hibernate.sql.Insert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.data.jpa.provider.HibernateUtils;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 /**
  * This class represents a REST controller for table containing inspections
@@ -28,6 +39,9 @@ import java.util.List;
 public class InspectionController {
     @Autowired
     private InspectionRepository inspectionRepository;
+
+    @Autowired
+    private LogRepository logRepository;
 
     Logger logger = LoggerFactory.getLogger(InspectionController.class);
 
@@ -283,6 +297,27 @@ public class InspectionController {
         if (inspections.isEmpty())
             throw new ResourceNotFoundException("Inspections not found for this station id :: " + VIN);
         logger.info("Found " + inspections.size() + " inspections for " + VIN);
+
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        Log log = new Log();
+        log.setLogsVIN(VIN);
+        log.setLogsTimestamp(timestamp);
+        logRepository.save(log);
+
+        /*
+        // zmenit podla umiestnenia na serveri
+        String fileName = "./../../../../../../../vin_logs.csv";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            bw.append(timestamp.toString() + "," + VIN);
+            bw.append("\n");
+        } catch (IOException ex)  {
+            logger.error(ex.toString());
+        }
+        */
+
         return ResponseEntity.ok().body(inspections);
     }
 }
