@@ -12,6 +12,18 @@
         a.appendChild(r);
       })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
+    <script>
+      function initFingerprintJS() {
+        FingerprintJS.load({token: 'LMnVi3CumTQ2ughZXslx', region: 'eu'})
+          .then(fp => fp.get())
+          .then(result => console.log(result.visitorId));
+      }
+    </script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs-pro@3/dist/fp.min.js"
+      onload="initFingerprintJS()"
+    ></script>
   <meta charset="UTF-8">
   <title>VIN info</title>
 </head>
@@ -19,7 +31,7 @@
 
 <form>
   <div class="form-group form-inline">
-    Zadej VIN číslo (alespoň 8 znaků): <input (input)="onSearchChange($event.target.value)" class="form-control ml-2" type="text" #vyhladavac id="vyhladavac"/>
+    Zadej VIN číslo (alespoň 10 znaků): <input (input)="onSearchChange($event.target.value)" class="form-control ml-2" type="text" #vyhladavac id="vyhladavac"/>
   </div>
 </form>
 
@@ -41,7 +53,7 @@
     </tr>
   
     
-    <tr *ngFor="let inspection of inspections$| async" class="row-data">
+    <tr *ngFor="let inspection of vinInfos$| async" class="row-data">
         <td class="vin label">
           <!--<a [routerLink]="[inspection.vin]"> -->
            <!-- <button color="primary" mat-raised-button (click)="changeLabelName(a)">  -->

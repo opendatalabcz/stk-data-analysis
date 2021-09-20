@@ -42,6 +42,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {ZeroToDashPipe} from "./types/pipes/ZeroToDash.pipe";
 import {InspectionsComponent} from "./pages/inspections/inspections.component";
 import {VinInfoComponent} from "./pages/vinInfo/vinInfo.component";
+import { VinInfoAPIService } from "./services/vinInfoAPIservice";
 
 @NgModule({
   declarations: [
@@ -96,6 +97,9 @@ import {VinInfoComponent} from "./pages/vinInfo/vinInfo.component";
     },
     {
       provide: "InspectionsAPIService", useClass: InspectionsAPIService
+    },
+    {
+      provide: "VinInfoAPIService", useClass: VinInfoAPIService
     }],
   bootstrap: [HomeComponent, StationsComponent, AboutComponent, SingleStationComponent, StatisticsComponent, SuspiciousBehaviourComponent, InspectionsComponent, VinInfoComponent]
 })

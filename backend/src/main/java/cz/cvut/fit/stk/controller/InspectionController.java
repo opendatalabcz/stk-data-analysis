@@ -288,6 +288,7 @@ public class InspectionController {
 
 
    // @GetMapping("/inspections/vin/{VIN}")
+   /*
    @GetMapping("/vinInfo/{VIN}")
     public ResponseEntity<List<Inspection>> getInspectionsByVin(@PathVariable(value = "VIN") String VIN) throws ResourceNotFoundException {
         if (VIN.length() <= 7) {
@@ -306,18 +307,21 @@ public class InspectionController {
         log.setLogsTimestamp(timestamp);
         logRepository.save(log);
 
-        /*
+
         // zmenit podla umiestnenia na serveri
-        String fileName = "./../../../../../../../vin_logs.csv";
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            bw.append(timestamp.toString() + "," + VIN);
-            bw.append("\n");
-        } catch (IOException ex)  {
-            logger.error(ex.toString());
-        }
-        */
+        //String fileName = "./../../../../../../../vin_logs.csv";
+        //try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName, true))) {
+        //    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        //    bw.append(timestamp.toString() + "," + VIN);
+        //    bw.append("\n");
+        //} catch (IOException ex)  {
+        //    logger.error(ex.toString());
+        //}
+
 
         return ResponseEntity.ok().body(inspections);
     }
+
+    */
+
 }

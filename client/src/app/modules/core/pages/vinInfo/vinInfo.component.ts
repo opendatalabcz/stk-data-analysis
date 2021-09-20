@@ -4,8 +4,8 @@ import {DecimalPipe} from "@angular/common";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 import { InspectionsComponent } from "../inspections/inspections.component";
-import {InspectionsInterface} from "../../types/inspectionsInterface";
-import {InspectionsAPIService} from "../../services/inspectionsAPIservice";
+import {VinInfoInterface} from "../../types/vinInfoInterface";
+import {VinInfoAPIService} from "../../services/vinInfoAPIservice";
 
 /**
  * search - filter stations by query entered to textFiled 'Hledat'
@@ -21,17 +21,17 @@ import {InspectionsAPIService} from "../../services/inspectionsAPIservice";
  * StationsComponent represents a page which contains a table with stations
  */
 export class VinInfoComponent implements OnInit {
-  public inspections$: Observable<InspectionsInterface[]>;
+  public vinInfos$: Observable<VinInfoInterface[]>;
 
-constructor(@Inject("InspectionsAPIService") private inspectionService: InspectionsAPIService) {}
+constructor(@Inject("VinInfoAPIService") private vinInfoService: VinInfoAPIService) {}
 
   
 ngOnInit(): void {
  }
 
  onSearchChange(text: string): void {
-    this.inspections$ = this.inspectionService.getInspectionsByVin(text);
-    console.log(this.inspections$)
+    this.vinInfos$ = this.vinInfoService.getVinInfoByVin(text);
+    console.log(this.vinInfos$)
  } 
 
 }
