@@ -29,9 +29,12 @@ constructor(@Inject("VinInfoAPIService") private vinInfoService: VinInfoAPIServi
 ngOnInit(): void {
  }
 
- onSearchChange(text: string): void {
+ onSearchChange(text: string): void {    
     this.vinInfos$ = this.vinInfoService.getVinInfoByVin(text);
-    console.log(this.vinInfos$)
- } 
+    var data = this.vinInfos$
 
+    console.log(this.vinInfos$)
+}
+    //document.getElementById("error").style.display="";
+    
 }

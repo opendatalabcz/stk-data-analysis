@@ -29,7 +29,37 @@
     </script>
     <!-- End Matomo Code -->
 
-    <!-- FingerprintJS -->
+    <script>
+      // Initialize the agent at application startup.
+      const fpPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.onload = resolve
+        script.onerror = reject
+        script.async = true
+        script.src = 'https://cdn.jsdelivr.net/npm/'
+          + '@fingerprintjs/fingerprintjs@3/dist/fp.min.js'
+        document.head.appendChild(script)
+      })
+        .then(() => FingerprintJS.load())
+    
+      // Get the visitor identifier when you need it.
+      fpPromise
+        .then(fp => fp.get())
+        .then(result => {
+          // This is the visitor identifier:
+          const visitorId = result.visitorId
+          /*
+          console.log(result)
+          console.log(visitorId)
+
+          console.log(result.components.timezone.value)
+          console.log(result.components.screenResolution.value)
+          console.log(result.components.platform.value)
+          console.log(result.components.languages.value[0])
+          */
+        })
+    </script>
+    
     <script>
       function initFingerprintJS() {
         FingerprintJS.load({token: 'LMnVi3CumTQ2ughZXslx', region: 'eu'})

@@ -49,13 +49,13 @@
 
 <form>
   <div class="form-group form-inline">
-    Zadej VIN číslo (alespoň 10 znaků): <input (input)="onSearchChange($event.target.value)" class="form-control ml-2" type="text" #vyhladavac id="vyhladavac"/>
+    Zadej VIN číslo (alespoň 10 znaků): <input (input)="onSearchChange($event.target.value)" class="form-control ml-2" type="text" #vyhladavac id="vyhladavac"/> <div id='error' style=" display:'none' "> NENALEZEN </div>
   </div>
 </form>
 
 
 <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
-   
+
     <tr class="table-info">
       <td>VIN</td>
       <td>Značka</td>
@@ -112,6 +112,8 @@
 
       </tr>      
   </table>
-  
+
+  <div class="modal"><!-- Place at bottom of page --></div>
+
   </body>
   </html>
