@@ -9,7 +9,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "kontroly_all")
+@Table(name = "kontroly_new_final")
 public class VinInfo {
 
     @Id

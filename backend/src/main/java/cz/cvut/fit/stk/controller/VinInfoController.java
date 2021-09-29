@@ -62,21 +62,27 @@ public class VinInfoController {
         Log log = new Log();
         log.setLogsVIN(VIN);
         log.setLogsTimestamp(timestamp);
-        logRepository.save(log);
 
-        VinInfo[] somethingIsSomething = vinInfos.toArray(new VinInfo[0]);
-        Arrays.sort(somethingIsSomething, new Comparator<VinInfo>() {
+        VinInfo[] somethingIsSomethingVIN = vinInfos.toArray(new VinInfo[0]);
+        Arrays.sort(somethingIsSomethingVIN, new Comparator<VinInfo>() {
             @Override
             public int compare(VinInfo x, VinInfo y){
-                if (x.getInspectionDate().before(y.getInspectionDate())) {
-                    return -1;
-                } else if (x.getInspectionDate().after(y.getInspectionDate())) {
-                    return 1;
+                if (x.getVIN().equals(y.getVIN())) {
+                    if (x.getInspectionDate().before(y.getInspectionDate())) {
+                        return -1;
+                    } else if (x.getInspectionDate().after(y.getInspectionDate())) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
                 } else {
-                    return 0;
+                    return x.getVIN().compareTo(y.getVIN());
                 }
             }
         });
-        return ResponseEntity.ok().body(Arrays.asList(somethingIsSomething));
+
+        logRepository.save(log);
+        return ResponseEntity.ok().body(Arrays.asList(somethingIsSomethingVIN));
+
     }
 }
