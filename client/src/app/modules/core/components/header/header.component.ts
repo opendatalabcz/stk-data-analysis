@@ -10,4 +10,5 @@ import {Component} from "@angular/core";
  * CoreHeaderComponent represents application's header, which includes navigation bar
  */
 export class CoreHeaderComponent {
+  collapsed = true;
 }
