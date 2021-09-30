@@ -40,6 +40,9 @@ import {NgApexchartsModule} from "ng-apexcharts";
 import {SuspiciousBehaviourComponent} from "./pages/suspicious-behaviour/suspicious-behaviour.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {ZeroToDashPipe} from "./types/pipes/ZeroToDash.pipe";
+import {InspectionsComponent} from "./pages/inspections/inspections.component";
+import {VinInfoComponent} from "./pages/vinInfo/vinInfo.component";
+import { VinInfoAPIService } from "./services/vinInfoAPIservice";
 
 @NgModule({
   declarations: [
@@ -61,7 +64,9 @@ import {ZeroToDashPipe} from "./types/pipes/ZeroToDash.pipe";
     MatColumnDefComponent,
     MatHeaderRowComponent,
     MatRowComponent,
-    SuspiciousBehaviourComponent
+    SuspiciousBehaviourComponent,
+    InspectionsComponent,
+    VinInfoComponent
   ],
   imports: [
     CoreRoutingModule,
@@ -92,8 +97,11 @@ import {ZeroToDashPipe} from "./types/pipes/ZeroToDash.pipe";
     },
     {
       provide: "InspectionsAPIService", useClass: InspectionsAPIService
+    },
+    {
+      provide: "VinInfoAPIService", useClass: VinInfoAPIService
     }],
-  bootstrap: [HomeComponent, StationsComponent, AboutComponent, SingleStationComponent, StatisticsComponent, SuspiciousBehaviourComponent]
+  bootstrap: [HomeComponent, StationsComponent, AboutComponent, SingleStationComponent, StatisticsComponent, SuspiciousBehaviourComponent, InspectionsComponent, VinInfoComponent]
 })
 export class CoreModule {
 }

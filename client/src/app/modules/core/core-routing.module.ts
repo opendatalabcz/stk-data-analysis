@@ -3,6 +3,8 @@ import {RouterModule, Routes} from "@angular/router";
 import {CoreLayoutComponent} from "./components/layout/layout.component";
 import {HomeComponent} from "./pages/home/home.component";
 import {StationsComponent} from "./pages/stations/stations.component";
+import {InspectionsComponent} from "./pages/inspections/inspections.component";
+import {VinInfoComponent} from "./pages/vinInfo/vinInfo.component";
 import {SingleStationComponent} from "./pages/single-station/single-station.component";
 import {StatisticsComponent} from "./pages/statistics/statistics.component";
 import {AboutComponent} from "./pages/about/about.component";
@@ -67,6 +69,30 @@ const routes: Routes = [
       {
         path: ":stationId",
         component: SingleStationComponent
+      }
+    ]
+  },
+  {
+    path: "inspections",
+    component: CoreLayoutComponent,
+    children: [
+          {
+            path: "",
+            component: InspectionsComponent
+          }
+    ]
+  },
+  {
+    path: "vinInfo",
+    component: CoreLayoutComponent,
+    children: [
+      {
+        path: "",
+        component: VinInfoComponent
+      },
+      {
+        path: ":inspections",
+        component: InspectionsComponent
       }
     ]
   },

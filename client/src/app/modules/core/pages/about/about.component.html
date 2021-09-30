@@ -1,3 +1,33 @@
+<head>
+  <!-- Hotjar Tracking Code for https://stk-test.opendatalab.cz/ -->
+  <script>
+    (function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:2601961,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//matomo.opendatalab.cz/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+</head>
 <div class="container">
 
   <h1 class="my-4">O portálu</h1>
@@ -32,12 +62,20 @@
   </div>
 
   <div id="section2">
+    <h3>Sekce <a [routerLink]="'/vinInfo'"><i>VIN info</i></a></h3>
+    <p>V této sekci můžete pomocí zadání VIN čísla do políčka "Zadej VIN číslo" vyhledat
+      informace o daném vozidle. Zobrazí se Vám základní informace o vozidle jako jsou
+      například značka, model a kód motoru. O kontrole se dozvíte její typ, kdy byla provedena a
+      její výsledek. Upozorňujeme, že zobrazované údaje se týkají od roku 2018.</p>
+  </div>
+
+  <div id="section3">
     <h3>Sekce <a [routerLink]="'/statistics'"><i>Statistiky</i></a></h3>
     <p>Tato sekce obsahuje grafy, znazorňující hromadné statistiky kontrol na stanicích
       technické kontroly v roce 2018.</p>
   </div>
 
-  <div id="section3">
+  <div id="section4">
     <h3>Sekce <a [routerLink]="'/suspicious'"><i>Anomálie</i></a></h3>
     <p>Tato sekce obsahuje grafy a další informace o příznaky podezřelého chování na stanicích technické kontroly,
       které byly odhalené v rámci analýzy datasetu STK2018.</p>

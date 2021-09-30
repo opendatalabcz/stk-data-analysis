@@ -3,6 +3,8 @@ import {PreloadAllModules, RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from "./modules/core/pages/home/home.component";
 import {CoreLayoutComponent} from "./modules/core/components/layout/layout.component";
 import {StationsComponent} from "./modules/core/pages/stations/stations.component";
+import {InspectionsComponent} from "./modules/core/pages/inspections/inspections.component";
+import {VinInfoComponent} from "./modules/core/pages/vinInfo/vinInfo.component";
 import {SingleStationComponent} from "./modules/core/pages/single-station/single-station.component";
 import {StatisticsComponent} from "./modules/core/pages/statistics/statistics.component";
 import {AboutComponent} from "./modules/core/pages/about/about.component";
@@ -38,6 +40,30 @@ const routes: Routes = [
       {
         path: ":stationId",
         component: SingleStationComponent
+      }
+    ]
+  },
+  {
+    path: "inspections",
+    component: CoreLayoutComponent,
+    children: [
+          {
+            path: "",
+            component: InspectionsComponent
+          }
+    ]
+  },
+  {
+    path: "vinInfo",
+    component: CoreLayoutComponent,
+    children: [
+      {
+        path: "",
+        component: VinInfoComponent
+      },
+      {
+        path: ":inspections",
+        component: InspectionsComponent
       }
     ]
   },

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Hotjar Tracking Code for https://stk-test.opendatalab.cz/ -->
+    <script>
+      (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:2601961,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//matomo.opendatalab.cz/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '1']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+
+    <script>
+      function initFingerprintJS() {
+        FingerprintJS.load({token: 'LMnVi3CumTQ2ughZXslx', region: 'eu'})
+          .then(fp => fp.get())
+          .then(result => console.log(result.visitorId));
+      }
+    </script>
+    <script
+      async
+      src="https://cdn.jsdelivr.net/npm/@fingerprintjs/fingerprintjs-pro@3/dist/fp.min.js"
+      onload="initFingerprintJS()"
+    ></script>
+
+  <meta charset="UTF-8">
+  <title>VIN info</title>
+</head>
+<body>
+
+<form>
+  <div class="form-group form-inline">
+    Zadej VIN číslo (alespoň 10 znaků): <input (input)="onSearchChange($event.target.value)" class="form-control ml-2" type="text" #vyhladavac id="vyhladavac"/> <div id='error' style=" display:'none' "> NENALEZEN </div>
+  </div>
+</form>
+
+
+<table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
+
+    <tr class="table-info">
+      <td>VIN</td>
+      <td>Značka</td>
+      <td>Model</td>
+      <td>Druh</td>
+      <td>Kód motoru</td>
+      <td>Datum 1. registrace</td>
+      <td>km</td>
+      <td>Typ kontroly</td>
+      <td>Datum kontroly</td>
+      <td>Výsledek STK</td>
+      <td>Výsledek Emise</td>
+    </tr>
+  
+    
+    <tr *ngFor="let inspection of vinInfos$| async" class="row-data">
+        <td class="vin label">
+          <!--<a [routerLink]="[inspection.vin]"> -->
+           <!-- <button color="primary" mat-raised-button (click)="changeLabelName(a)">  -->
+              {{inspection.vin}}
+          <!-- </button> -->
+          <!--</a> --> 
+        </td>
+        <td>
+          {{inspection.vehicleBrand}}
+        </td>
+        <td>
+          {{inspection.vehicleModel}}
+        </td>
+        <td>
+          {{inspection.vehicleCategory}}
+        </td>
+        <td>
+          {{inspection.engineType}}
+        </td>
+        <td >
+          {{inspection.firstRegistrationDate | date}}
+        </td>
+        <td>
+          {{inspection.mileage}}
+        </td>
+        <td>
+          {{inspection.inspectionType}}
+        </td>
+        <td >
+          {{inspection.inspectionDate | date}}
+        </td>
+        <td>
+          {{inspection.inspectionResult}}
+        </td>
+        <td>
+          {{inspection.emissionControlResult}}
+        </td>
+
+      </tr>      
+  </table>
+
+  <div class="modal"><!-- Place at bottom of page --></div>
+
+  </body>
+  </html>
