@@ -35,7 +35,7 @@
     href="https://data.gov.cz/datov%C3%A1-sada?iri=https%3A%2F%2Fdata.gov.cz%2Fzdroj%2Fdatov%C3%A9-sady%2Fhttps---un7pp4qfr5.execute-api.eu-west-1.amazonaws.com-prod-package_show-id-stk_md_2018">dat</a>
     a další informace o stanicích technické kontroly a byl vypracován v rámci bakalářské práce na Fakultě informačních
     technologií ČVUT v roce 2020.
-    Účelem tohoto portálu je nejen popisovat stanice a statistiky kontrol a takže upozorňovat na
+    Účelem tohoto portálu je nejen popisovat stanice a statistiky kontrol, ale i upozorňovat na
     podezřelé chování na stanicích.</p>
   <br>
   <div id="info">
@@ -51,8 +51,8 @@
       na stanicích technické kontroly v celé České republice a zahrnuje jak údaje o výsledcích kontroly,
       tak i údaje o vozidle samotném:</p>
   </div>
-  <img alt="stk_icon" id="stk_icon" src="assets/stk-sme.png">
-  <img alt="xml" id="xml" src="assets/xml.png">
+  <img alt="stk_icon" id="stk_icon" src="assets/stk-sme.png" style="max-width:100%;height:auto;">
+  <img alt="xml" id="xml" src="assets/xml.png" style="max-width:100%;height:auto;">
   <div id="section1">
     <h3>Sekce <a [routerLink]="'/stations'"><i>Stanice</i></a></h3>
     <p>Tato sekce obsahuje seznam stanic technické kontroly, ve kterém se lze vyhledávat pomocí zadání dotazu do
@@ -64,14 +64,14 @@
   <div id="section2">
     <h3>Sekce <a [routerLink]="'/vinInfo'"><i>VIN info</i></a></h3>
     <p>V této sekci můžete pomocí zadání VIN čísla do políčka "Zadej VIN číslo" vyhledat
-      informace o daném vozidle. Zobrazí se Vám základní informace o vozidle jako jsou
+      informace o daném vozidle. Zobrazí se Vám základní informace o vozidle, jako jsou
       například značka, model a kód motoru. O kontrole se dozvíte její typ, kdy byla provedena a
       její výsledek. Upozorňujeme, že zobrazované údaje se týkají od roku 2018.</p>
   </div>
 
   <div id="section3">
     <h3>Sekce <a [routerLink]="'/statistics'"><i>Statistiky</i></a></h3>
-    <p>Tato sekce obsahuje grafy, znazorňující hromadné statistiky kontrol na stanicích
+    <p>Tato sekce obsahuje grafy, znázorňující hromadné statistiky kontrol na stanicích
       technické kontroly v roce 2018.</p>
   </div>
 

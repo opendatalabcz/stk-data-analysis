@@ -66,7 +66,7 @@
   ></apx-chart>
 </div>
 <div *ngIf="stations.length != 0" id="prices_chart">
-  <h5>Střendí cena pravidelné prohlídky podle kraje:</h5>
+  <h5>Střední cena pravidelné prohlídky podle kraje:</h5>
   <apx-chart
     [chart]="pricesOptions.chart"
     [dataLabels]="pricesOptions.dataLabels"
@@ -78,7 +78,7 @@
   ></apx-chart>
 </div>
 <div *ngIf="stations.length != 0" id="prices_chart_ev">
-  <h5>Střendí cena evidenční kontroly podle kraje:</h5>
+  <h5>Střední cena evidenční kontroly podle kraje:</h5>
   <apx-chart
     [chart]="pricesOptionsEv.chart"
     [dataLabels]="pricesOptionsEv.dataLabels"

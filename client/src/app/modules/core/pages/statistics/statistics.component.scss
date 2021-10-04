@@ -2,32 +2,47 @@
   padding-top: 40px;
   width: 500px;
   float: left;
+  max-width: 100%;
+  height: auto;
 }
 
 #prices_chart_ev {
   padding-top: 40px;
   overflow: hidden;
-  padding-left: 50px;
+  //padding-left: 50px;
+  max-width: 100%;
+  height: auto;
 }
 
 #pie_chart_res {
   width: 400px;
   float: left;
+  max-width: 100%;
+  height: auto;
 }
 
 #pie_chart_emission {
+  width: 400px;
   overflow: hidden;
-  padding-left: 50px;
+  //padding-left: 50px;
+  max-width: 100%;
+  height: auto;
 }
 
 #header {
   padding-bottom: 50px;
+  max-width: 100%;
+  height: auto;
 }
 
 #column_chart {
   padding-top: 40px;
+  max-width: 100%;
+  height: auto;
 }
 
 body {
   width: 1000px;
+  max-width: 100%;
+  height: auto;
 }

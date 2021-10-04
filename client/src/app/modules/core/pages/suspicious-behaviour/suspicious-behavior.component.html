@@ -40,11 +40,11 @@
 <div id="working_hours">
   <h4>Kontroly mimo pracovní dobu</h4><br>
   <p>Jednou ze základních věcí, kterou je možné zjistit z dat, která jsou již k dispozici, je
-    množství kontrol, provedených mimo pracovní dobu stanic, tj. po zavírací době nebo mimo
+    množství kontrol provedených mimo pracovní dobu stanic, tj. po zavírací době nebo mimo
     pracovní den. </p><br>
 
   <div id="hours_chart">
-    <h5>Počet kontrol, provedených v podezřelých hodinách:</h5>
+    <h5>Počet kontrol provedených v podezřelých hodinách:</h5>
     <apx-chart
       [chart]="hourOptions.chart"
       [dataLabels]="hourOptions.dataLabels"
@@ -69,7 +69,7 @@
     </a>
   </p>
 
-  <p>Většina prohlídek mezi 23:00 a 0:00 byly provedené na stanice:&nbsp;
+  <p>Většina prohlídek mezi 23:00 a 0:00 byly provedené na stanici:&nbsp;
     <a [routerLink]="[6732]">
       <button color="primary" mat-raised-button>
         {{6732}}
@@ -77,7 +77,7 @@
     </a>
   </p>
 
-  <p>Prohlídky mimo pracovní dobu byly zaznamenaný u
+  <p>Prohlídky mimo pracovní dobu byly zaznamenané u
     <b>229</b> z 247 zkoumaných stanic a <b>43</b> stanic provádělo kontroly mimo pracovní den.</p>
 </div>
 
@@ -85,9 +85,9 @@
   <h4>Anomální hustota prohlídek</h4><br>
   <p>Součástí datasetu STK2018 bohužel není doba trvání prohlídky, ale jenom datum a čas
     zápisu do systému. Stejně tak není součástí seznamu stanic dostupného na stránkách
-    Ministerstva dopravy ani počet kontrolních linek. Ale na se každý rok zveřejňuje časové
+    Ministerstva dopravy ani počet kontrolních linek. <!--Ale na se každý rok zveřejňuje časové
     pracnosti kontrol a některé stanice na svých webových stránkách uvádějí počet kontrolních
-    linek. Z toho lze odhadnout průměrný počet prohlídek, které stanice provede během určitého
+    linek. Z toho --> Pořád lze odhadnout průměrný počet prohlídek, které stanice provede během určitého
     časového intervalu, a následně lze tento počet porovnat se skutečným počtem.</p>
 
   <p *ngIf="capacity.length != 0">
@@ -133,7 +133,7 @@
   </div>
 
   <div *ngIf="typesOfInspection.length > 1" id="pie_chart_cap">
-    <h5>Počet kontrol na stanice 3851 podle druhu:</h5>
+    <h5>Počet kontrol na stanici 3851 podle druhu:</h5>
     <apx-chart
       [chart]="capacityPieOptions.chart"
       [dataLabels]="capacityPieOptions.dataLabels"
@@ -147,10 +147,10 @@
 
 <div id="invalid_date">
   <h4>Chybně zadané záznamy</h4><br>
-  <p>Nejstarší datum registrace vozidla v datasetu je 1. ledna 1753, což je jednoduše
-    minimální možný datum v sloupci datetime na SQL serveru. Dalšími jsou
+  <p>Nejstarší datum registrace vozidla v datasetu je 1. ledna 1753 což je jednoduše
+    minimální možné datum v sloupci datetime na SQL serveru. Další jsou
     automobily registrované v roce 1900, mezi kterými jsou například vozidla modelu Škoda Favorit,
-    vyráběných v letech 1988 až 1995, což opět vypovídá o nesprávně zadaných záznamech.
+    vyráběné v letech 1988 až 1995, což opět vypovídá o nesprávně zadaných záznamech.
     Mimo tato chybná data prohlídek je nejstarší datum registrace osobního vozidla
     31. prosince 1917.</p><br>
 
@@ -196,8 +196,7 @@
     v datasetu. Následně byl vypočten odhad počtu setkání na základě pravděpodobnosti
     a procentuální rozdíl mezi odhadem a skutečným počtem.</p>
 
-  <p>Nejčastější dvojice značek jsou samozřejmě kombinace Škody a dalších nejpopulárnějších v České republice
-    značek:</p>
+  <p>Nejčastější dvojice značek jsou samozřejmě kombinace Škody a dalších populárních značek v České republice:</p>
 
   <table [cellPadding]="10" class="fixed table table-striped table-responsive-md btn-table">
     <tr class="row-data">
