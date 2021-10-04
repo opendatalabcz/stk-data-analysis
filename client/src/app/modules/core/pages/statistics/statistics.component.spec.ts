@@ -21,6 +21,9 @@ class TestStationsMockService implements StationsService {
 }
 
 class TestInspectionsMockService implements InspectionsService {
+  getInspectionsByVin(VIN: string): Observable<InspectionsInterface[]> {
+    throw new Error("Method not implemented.");
+  }
   getInspectionsByEmissionResult(result: string): Observable<number> {
     return new Observable<number>();
   }

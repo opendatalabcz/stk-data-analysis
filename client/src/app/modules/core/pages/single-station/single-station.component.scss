@@ -1,50 +1,72 @@
 #info {
   width: 500px;
   float: left;
+  max-width: 100%;
+  height: auto;
 }
 
 #stat {
   overflow: hidden;
   padding-left: 50px;
+  max-width: 100%;
+  height: auto;
 }
 
 #card {
   padding-top: 20px;
+  max-width: 100%;
+  height: auto;
 }
 
 #total {
   padding-top: 20px;
   padding-bottom: 20px;
+  max-width: 100%;
+  height: auto;
 }
 
 #column_chart {
   padding-top: 80px;
+  max-width: 100%;
+  height: auto;
 }
 
 #bar_chart {
   padding-top: 80px;
+  max-width: 100%;
+  height: auto;
 }
 
 #price {
   padding-top: 80px;
+  max-width: 100%;
+  height: auto;
 }
 
 #note {
   padding-top: 80px;
   width: 200px;
+  max-width: 100%;
+  height: auto;
 }
 
 #hours {
   padding-left: 10px;
   padding-bottom: 30px;
+  max-width: 100%;
+  height: auto;
 }
 
 #suspiciousTable {
   padding-top: 80px;
+  max-width: 100%;
+  height: auto;
 }
 
 #pie_chart_brand {
   padding-top: 80px;
+  max-width: 100%;
+  height: auto;
 }
 
 #hoursVerified {
@@ -85,8 +107,12 @@
 
 #anomaly {
   padding-bottom: 30px;
+  max-width: 100%;
+  height: auto;
 }
 
 .table_header {
   padding-left: 35px;
+  max-width: 100%;
+  height: auto;
 }

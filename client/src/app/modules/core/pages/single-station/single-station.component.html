@@ -33,7 +33,7 @@
   <title>Stanice</title>
 </head>
 <body>
-<div *ngIf="station" id="info">
+<div *ngIf="station" id="info"  style="max-width:100%;height:auto;">
   <h1><b>{{station.operator}}</b>
   </h1>
   <div id="card">
@@ -145,6 +145,7 @@
   </div>
 
 </div>
+
 <div *ngIf="inspections.length != 0" id="stat">
   <h2>Statistiky kontrol v roce 2018</h2>
   <p id="total">Celkem kontrol: <b>{{inspections.length}}</b></p>
@@ -169,7 +170,7 @@
       [yaxis]="monthOptions.yaxis"
     ></apx-chart>
   </div>
-  <div id="bar_chart">
+  <div id="bar_chart"  style="max-width:100%;height:auto;">
     <h5 class="table_header">Počet kontrol podle dne v týdnu:</h5>
     <apx-chart
       [chart]="dayOptions.chart"
@@ -182,7 +183,7 @@
     ></apx-chart>
   </div>
 
-  <div id="bar_chart_hour">
+  <div id="bar_chart_hour"  style="max-width:100%;height:auto;">
     <h5 class="table_header">Počet kontrol podle času:</h5>
     <apx-chart
       [chart]="hourOptions.chart"

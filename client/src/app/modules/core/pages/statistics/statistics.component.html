@@ -35,6 +35,9 @@
 </head>
 <body>
 <h2 id="header">Celkové statistiky kontrol v roce 2018</h2>
+
+<div class="d-flex row">
+<div class="col-lg-6">
 <div *ngIf="results.length != 0" id="pie_chart_res">
   <h5>Výsledky prohlídek:</h5>
   <apx-chart
@@ -44,6 +47,8 @@
     [series]="pieOptions.series"
   ></apx-chart>
 </div>
+</div>
+<div class="col-lg-6">
 <div *ngIf="resultsEmission.length != 0" id="pie_chart_emission">
   <h5>Výsledky měření emisí:</h5>
   <apx-chart
@@ -53,6 +58,9 @@
     [series]="pieOptionsEmission.series"
   ></apx-chart>
 </div>
+</div>
+</div>
+
 <div id="column_chart">
   <h5>Počet kontrol podle měsíce:</h5>
   <apx-chart
